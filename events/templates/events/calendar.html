@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Календар</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'events/calendar.css' %}">
+</head>
+<body>
+    <h1>Календар</h1>
+    {{ calendar|safe }}
+
+    <h2>Добави събитие</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Заглавие: <input type="text" name="title" required></label><br>
+        <label>Описание: <textarea name="description"></textarea></label><br>
+        <label>Дата: <input type="date" name="date" required></label><br>
+        <button type="submit">Запази</button>
+    </form>
+
+    <h2>Събития</h2>
+    <ul>
+        {% for event in events %}
+            <li>
+                <strong>{{ event.date }}:</strong> {{ event.title }}<br>
+                <em>{{ event.description }}</em>
+            </li>            
+        {% empty %}
+            <li>Няма събития този месец.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
